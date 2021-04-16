@@ -1,0 +1,42 @@
+@import '../../../styles/variables';
+.post {
+  display: block;
+  
+  &:not(:last-child) {
+    margin-bottom: 3.125rem;
+  }
+
+  &:hover {
+    h2 {
+      color: $highlight;
+    }
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color:$white;
+    transition: color .2s ease;
+  }
+  p {
+    color: $subtitle;
+    font-size: 1.125rem;
+    margin-bottom: 1.36rem;
+  }
+  &__info {
+    display: inline-block;
+    img {
+      vertical-align: middle;
+      margin-right: .3rem;
+    }
+    span {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: $font-500;
+    }
+    &~.post__info {
+      margin-left: 1rem;
+
+    }
+  }
+}
