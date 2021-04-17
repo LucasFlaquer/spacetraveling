@@ -38,5 +38,10 @@
       margin-left: 1rem;
 
     }
+    &:not(:last-child) {
+      span {
+        text-transform: capitalize;
+      }
+    }
   }
 }
