@@ -1,47 +1,105 @@
-// import { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Prismic from '@prismicio/client';
+import { useState } from 'react';
 import { PostList } from '../components/Posts/PostList';
-
-// import { getPrismicClient } from '../services/prismic';
+import { getPrismicClient } from '../services/prismic';
 
 // import commonStyles from '../styles/common.module.scss';
-// import styles from './home.module.scss';
+import styles from './home.module.scss';
 
-// interface Post {
-//   uid?: string;
-//   first_publication_date: string | null;
-//   data: {
-//     title: string;
-//     subtitle: string;
-//     author: string;
-//   };
-// }
+interface Post {
+  uid?: string;
+  first_publication_date: string | null;
+  data: {
+    title: string;
+    subtitle: string;
+    author: string;
+  };
+}
 
-// interface PostPagination {
-//   next_page: string;
-//   results: Post[];
-// }
+interface PostPagination {
+  next_page: string;
+  results: Post[];
+}
 
-// interface HomeProps {
-//   postsPagination: PostPagination;
-// }
+interface HomeProps {
+  postsPagination: PostPagination;
+}
+interface dataResponse {
+  next_page: string | null;
+  results: Post[];
+}
 
-export default function Home(): JSX.Element {
+export default function Home({ postsPagination }: HomeProps): JSX.Element {
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results);
+  const [nextPage, setNextPage] = useState<string | null>(
+    postsPagination.next_page
+  );
+
+  function FetchMorePosts(): void {
+    const url = postsPagination.next_page;
+    fetch(url)
+      .then(response => response.json())
+      .then((data: dataResponse) => {
+        setNextPage(data.next_page);
+        setPosts([...posts, ...data.results]);
+      });
+  }
+
   return (
     <>
       <Head>
         <title>spacetraveling</title>
       </Head>
       <main>
-        <PostList />
+        <PostList posts={posts} />
+        {nextPage && (
+          <button
+            className={styles.loadMore}
+            type="button"
+            onClick={FetchMorePosts}
+          >
+            Carregar mais posts
+          </button>
+        )}
       </main>
     </>
   );
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+  const response = await prismic.query(
+    [Prismic.predicates.at('document.type', 'post')],
+    {
+      fetch: ['post.title', 'post.subtitle', 'post.author'],
+      pageSize: 2,
+    }
+  );
 
-//   // TODO
-// };
+  const posts = response.results.map(post => {
+    const formattedDate = new Date(post.first_publication_date)
+      .toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+      .replace('de', '')
+      .replace('de', '');
+
+    return {
+      uid: post.uid,
+      first_publication_date: formattedDate,
+      data: post.data,
+    };
+  });
+  const postsPagination = {
+    next_page: response.next_page,
+    results: posts,
+  };
+
+  return {
+    props: { postsPagination },
+  };
+};
