@@ -1,21 +1,25 @@
 import { PostItem } from '../PostItem';
 
-export function PostList(): JSX.Element {
-  const post = {
-    title: 'lorem5',
-    description: 'Lorem, ipsit amet consectetur adit. Molestiae, doloremque!',
-    updated_at: '15 Mar 2021',
-    slug: 'hah-adhf-asdf0',
-    author: 'LucasFlaquer',
+interface Post {
+  uid?: string;
+  first_publication_date: string | null;
+  data: {
+    title: string;
+    subtitle: string;
+    author: string;
   };
+}
+
+interface Props {
+  posts: Post[];
+}
+
+export function PostList({ posts }: Props): JSX.Element {
   return (
     <div className="posts">
-      <PostItem post={post} />
-      <PostItem post={post} />
-      <PostItem post={post} />
-      <PostItem post={post} />
-      <PostItem post={post} />
-      <PostItem post={post} />
+      {posts.map(post => (
+        <PostItem post={post} key={post.uid} />
+      ))}
     </div>
   );
 }
