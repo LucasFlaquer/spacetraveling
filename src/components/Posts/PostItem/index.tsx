@@ -1,11 +1,14 @@
+import Link from 'next/link';
 import styles from './styles.module.scss';
 
 interface Post {
-  title: string;
-  description: string;
-  updated_at: string;
-  author: string;
-  slug: string;
+  uid: string;
+  first_publication_date: string | null;
+  data: {
+    title: string;
+    subtitle: string;
+    author: string;
+  };
 }
 
 interface Props {
@@ -14,17 +17,19 @@ interface Props {
 
 export function PostItem({ post }: Props): JSX.Element {
   return (
-    <a href="/sss" className={styles.post}>
-      <h2>{post.title}</h2>
-      <p>{post.description}</p>
-      <div className={styles.post__info}>
-        <img src="/images/calendar.svg" alt="calendar" />
-        <span>{post.updated_at}</span>
-      </div>
-      <div className={styles.post__info}>
-        <img src="/images/user.svg" alt="author" />
-        <span>{post.author}</span>
-      </div>
-    </a>
+    <Link href={post.uid}>
+      <a className={styles.post}>
+        <h2>{post.data.title}</h2>
+        <p>{post.data.subtitle}</p>
+        <div className={styles.post__info}>
+          <img src="/images/calendar.svg" alt="calendar" />
+          <span>{post.first_publication_date}</span>
+        </div>
+        <div className={styles.post__info}>
+          <img src="/images/user.svg" alt="author" />
+          <span>{post.data.author}</span>
+        </div>
+      </a>
+    </Link>
   );
 }
