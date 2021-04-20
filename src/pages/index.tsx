@@ -2,11 +2,14 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Prismic from '@prismicio/client';
 import { useState } from 'react';
+
 import { PostList } from '../components/Posts/PostList';
 import { getPrismicClient } from '../services/prismic';
 
 // import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import { formatDate } from '../services/formatDate';
+import Header from '../components/Header';
 
 interface Post {
   uid?: string;
@@ -52,6 +55,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
       <Head>
         <title>spacetraveling</title>
       </Head>
+      <Header />
       <main>
         <PostList posts={posts} />
         {nextPage && (
@@ -79,18 +83,9 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const posts = response.results.map(post => {
-    const formattedDate = new Date(post.first_publication_date)
-      .toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      })
-      .replace('de', '')
-      .replace('de', '');
-
     return {
       uid: post.uid,
-      first_publication_date: formattedDate,
+      first_publication_date: post.first_publication_date,
       data: post.data,
     };
   });
