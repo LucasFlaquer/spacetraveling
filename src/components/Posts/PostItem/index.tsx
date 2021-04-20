@@ -17,8 +17,8 @@ interface Props {
 
 export function PostItem({ post }: Props): JSX.Element {
   return (
-    <Link href={post.uid}>
-      <a className={styles.post}>
+    <Link href={`post/${post.uid}`}>
+      <a className={styles.postItem}>
         <h2>{post.data.title}</h2>
         <p>{post.data.subtitle}</p>
         <div className={styles.post__info}>
