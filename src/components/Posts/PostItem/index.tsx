@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import { FiCalendar, FiUser } from 'react-icons/fi';
+import { formatDate } from '../../../services/formatDate';
 import styles from './styles.module.scss';
 
 interface Post {
-  uid: string;
+  uid?: string;
   first_publication_date: string | null;
   data: {
     title: string;
@@ -16,17 +18,18 @@ interface Props {
 }
 
 export function PostItem({ post }: Props): JSX.Element {
+  const formatedDate = formatDate(post.first_publication_date);
   return (
-    <Link href={`post/${post.uid}`}>
+    <Link href={`/post/${post.uid}`}>
       <a className={styles.postItem}>
         <h2>{post.data.title}</h2>
         <p>{post.data.subtitle}</p>
-        <div className={styles.post__info}>
-          <img src="/images/calendar.svg" alt="calendar" />
-          <span>{post.first_publication_date}</span>
+        <div className={styles.postItem__info}>
+          <FiCalendar />
+          <span>{formatedDate}</span>
         </div>
-        <div className={styles.post__info}>
-          <img src="/images/user.svg" alt="author" />
+        <div className={styles.postItem__info}>
+          <FiUser />
           <span>{post.data.author}</span>
         </div>
       </a>
