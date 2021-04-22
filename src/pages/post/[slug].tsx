@@ -51,7 +51,7 @@ export default function Post({ post }: PostProps): JSX.Element {
         </figure>
         <main>
           <h1 className={styles.post__title}>{post.data.title}</h1>
-          <div className="">
+          <div className={styles.post__info}>
             <div className="">
               <FiCalendar />
               <span>{formatedDate}</span>
@@ -66,10 +66,10 @@ export default function Post({ post }: PostProps): JSX.Element {
             </div>
           </div>
           {post.data.content.map(content => (
-            <div className="content" key={content.heading}>
+            <div className={styles.post__content} key={content.heading}>
               <h2>{content.heading}</h2>
               <div
-                className=""
+                className={styles.post__contentBody}
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                   __html: RichText.asHtml(content.body),

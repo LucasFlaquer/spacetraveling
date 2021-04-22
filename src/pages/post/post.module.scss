@@ -1,6 +1,7 @@
 @import '../../styles/variables.scss';
 
 .post {
+  color: $font-500;
   figure {
     height: calc(100vw * 5 / 18);
     margin-bottom: 5rem;
@@ -15,6 +16,36 @@
     color: $white;
     font-size: 3rem;
     margin-bottom: 1.5rem;
+  }
+  &__info {
+    margin-bottom: 4.1rem;
+    div {
+      display: inline-block;
+
+      svg {
+        margin-right: .5rem;
+      }
+      span {
+        font-size: 1rem;
+      }
+      &+div {
+        margin-left: 1rem;
+      }
+    }
+  }
+  &__content {
+    h2 {
+      color: $white;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    &Body {
+      margin-bottom: 1.5rem;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.7rem;
+    }
   }
   
 }
