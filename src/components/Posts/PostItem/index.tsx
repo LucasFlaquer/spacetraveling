@@ -25,11 +25,11 @@ export function PostItem({ post }: Props): JSX.Element {
         <h2>{post.data.title}</h2>
         <p>{post.data.subtitle}</p>
         <div className={styles.postItem__info}>
-          <FiCalendar />
+          <FiCalendar color="#bbb" size={18} />
           <span>{formatedDate}</span>
         </div>
         <div className={styles.postItem__info}>
-          <FiUser />
+          <FiUser color="#bbb" size={18} />
           <span>{post.data.author}</span>
         </div>
       </a>
