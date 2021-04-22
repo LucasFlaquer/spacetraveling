@@ -70,6 +70,7 @@ export default function Post({ post }: PostProps): JSX.Element {
               <h2>{content.heading}</h2>
               <div
                 className=""
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                   __html: RichText.asHtml(content.body),
                 }}

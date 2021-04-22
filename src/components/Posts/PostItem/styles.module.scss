@@ -25,14 +25,14 @@
   }
   &__info {
     display: inline-block;
-    img {
-      vertical-align: middle;
-      margin-right: .3rem;
+    svg {
+      transform: translateX(2px);
     }
     span {
       display: inline-block;
       font-size: 0.9rem;
       color: $font-500;
+      margin-left: .2rem;
     }
     &~.postItem__info {
       margin-left: 1rem;
